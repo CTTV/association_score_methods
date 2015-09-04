@@ -16,7 +16,7 @@ For the EuroPMC literature mining, the concept is to identify co-occurrences of 
 
 The scale factors are
 
-Title 10
+Title 10\n
 Abstract/Results/Fig/Table 5
 Introduction/Case study/Appendix/Other 1
 Discussion 3
