@@ -2,12 +2,12 @@
 
 Each database entry corresponds to the overall literature-based evidence of a particular gene-disease association. 
 
-GeneID (from literature)
-Disease (from literature)
-Variant  (not applicable)
-Confidence (not applicable 1.0)
-Severity (not applicable 1.0)
-Frequency (relative proportion compared to other gene/disease linkages)
+* GeneID (from literature)
+* Disease (from literature)
+* Variant  (not applicable)
+* Confidence (not applicable 1.0)
+* Severity (not applicable 1.0)
+* Frequency (relative proportion compared to other gene/disease linkages)
 
 Frequency
 Frequency captures the relative number of entries linking a particular gene-disease pair compared to the total number of records linking either entry. Alternative normalization schemes will be compared. See Section 1.
