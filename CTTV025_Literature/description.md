@@ -14,13 +14,13 @@ Frequency captures the relative number of entries linking a particular gene-dise
 
 For the EuroPMC literature mining, the concept is to identify co-occurrences of the target (Uniprot mapping) and disease term (EFO including synonyms) within a paper, and then to score a paper based on the count of co-occurrences and their positions in the sections of a paper.  The score is the sum of the co-occurrences, scaled by the section in which they occur, plus a factor that represents the number of time the target is mentioned overall in the abstract (count * 0.3).  
 
-The scale factors are
+The scale factors are:
 
-..*Title 10
-..Abstract/Results/Fig/Table 5
-..Introduction/Case study/Appendix/Other 1
-..Discussion 3
-..Conclusion 2
+*Title 10
+*Abstract/Results/Fig/Table 5
+*Introduction/Case study/Appendix/Other 1
+*Discussion 3
+*Conclusion 2
 
 So the score is
  
