@@ -7,39 +7,12 @@ this shows that a SNP is associated with the disease.
 
 #Evidence.variant2gene.association_score
 
-To assign variants to genes we use a pipeline built by Michael Maguire(mmaguire@ebi.ac.uk).
+To assign variants to genes we current use the OpenTargets "SNP Assignment Pipeline".
 
-For each of the variant RS ids the pipeline will get :
-* the [REST API JSON output](http://rest.ensembl.org/documentation/info/vep_id_post)
-* the nearest gene output from the Ensembl Perl API (the get_nearest_Gene() method from the Bio::EnsEMBL::Variation::VariationFeature
-package in the [Ensembl Variation api](http://www.ensembl.org/info/docs/api/variation/index.html#api)).
-* the online [VEP](http://www.ensembl.org/info/docs/tools/vep/index.html) output .
-
-Those outputs are loaded into a database.
-
-For non intergenic genes :
-The pipeline first interrogates the REST API JSON and uses the JSON property "most_serious_consequence" to extract information
-for transcripts that have the same "consequence" property value as this. These values use Sequence Ontology terms (SO terms) like
-"missense_variant","stop_gained"...
-If the variant SO term indicates it is non-synonymous ("missense_variant") for one or more genes or in a 5'- or 3'-UTR,
-it is assigned to those genes no more checks are run.
-Then, if the variant SO term indicates it is intronic for one or more genes, it is assigned to those genes.
-
-For intergenic genes:
-The pipeline uses the Perl API nearest gene method and the variant is assigned to the nearest gene at the 5'
-end. As there is no SO term to describe that the pipeline uses the following term nearest_gene_five_prime_end (http://targetvalidation.org/sequence/nearest_gene_five_prime_end).
-
-Finally, the REST VEP API does not report regulatory SNPs (or didn't when the platform was implemented). This information
-is obtained from the on-line VEP tool. If a SNP is flagged as regulatory, the pipeline assign it as such using the relvant SO term and
-over-write any previous assignment.
-
-In the end we obtain a file like containing the information below :
-
-| gwas_snp_rs_id | assigned_ensembl_gene_id | sequence_ontology_term | overlapping_ensembl_gene_ids |
-| -------------- | ------------------------ | ---------------------- | ----------------------------
-| rs227724 | ENSG00000183691|upstream_gene_variant|_ |
-| rs2488389|ENSG00000213047|intron_variant|_ |
-| rs7200543|ENSG00000275498|synonymous_variant | ENSG00000179889 |
+The pipeline uses data from two sources:
+* Ensembl VEP REST API
+* Ensembl Perl API
+If VEP JSON is returned for a given SNP with RS id (or position if not available), it will be assigned gene from transcript that has the most_severe_consequence. For intergenic SNPs (~35% of GWAS Catalog), No VEP JSON is returned. For these the nearest gene at the five prime end is determined using the Ensembl Perl API.
 
 To obtain a score we associate the returned SO terms with a number between 0 and 1 which reflect the severity of the effect
 of the snp on the given gene (the closer to 1 and most severe). It also reflects in some degree the likeliness of that snp
